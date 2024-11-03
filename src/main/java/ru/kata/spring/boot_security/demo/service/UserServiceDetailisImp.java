@@ -1,14 +1,14 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import ru.kata.spring.boot_security.demo.security.UserDetailsImp;
 
@@ -20,15 +20,16 @@ import java.util.Optional;
 
 
 @Service
-public class UserServiceDetailisImp implements UserDetailsService {
+public class UserServiceDetailisImp implements UserServiceDetailis {
 
     private final UserRepository userRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public UserServiceDetailisImp(UserRepository userRepository) {
+    public UserServiceDetailisImp(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -40,15 +41,6 @@ public class UserServiceDetailisImp implements UserDetailsService {
     }
     return new UserDetailsImp(user.get());
     }
-
-//    @Transactional
-//        public void findByUsername(String username) {
-//        this.userRepository.findByUsername(username);
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        userRepository.save(userRepository.findByUsername(username));
-//    }
-
-
 
     @Transactional
     public User findUserById(Long id) {
@@ -76,9 +68,11 @@ public class UserServiceDetailisImp implements UserDetailsService {
         userRepository.save(user);
     }
 
+
     @Transactional
-    public void updateUser(User user) {
-        entityManager.merge(user);
+    public void register(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
     }
 
 }
