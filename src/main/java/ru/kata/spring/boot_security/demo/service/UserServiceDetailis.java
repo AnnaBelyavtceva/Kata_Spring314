@@ -16,7 +16,7 @@ public interface UserServiceDetailis extends UserDetailsService {
 
     public void delete(Long id);
 
-    public void save(User user);
+    public void updateUser(User user);
 
 
 
