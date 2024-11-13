@@ -18,6 +18,8 @@ public interface UserServiceDetailis extends UserDetailsService {
 
     public void updateUser(User user);
 
+    public User findByUsername(String username);
+
 
 
 }
