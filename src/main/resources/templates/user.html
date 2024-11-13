@@ -58,7 +58,7 @@
                         <th>Role</th>
                     </tr>
                     </thead>
-                    <tbody id="userTableBody">
+                    <tbody id="userTable">
 
                     </tbody>
                 </table>
@@ -82,14 +82,13 @@
         const userRow = `
             <tr>
                 <td>${user.id}</td>
-
                 <td>${user.name}</td>
                 <td>${user.surname}</td>
                 <td>${user.age}</td>
                 <td>${user.username}</td>
                 <td>${user.roles.map(role => role.authority.replace('ROLE_', '')).join(', ')}</td>
             </tr>`;
-        $('#userTableBody').append(userRow);
+        $('#userTable').append(userRow);
 
 
         const isAdmin = user.roles.some(role => role.authority === 'ROLE_ADMIN');

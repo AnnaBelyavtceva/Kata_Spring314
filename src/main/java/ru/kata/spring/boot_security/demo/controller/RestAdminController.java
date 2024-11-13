@@ -19,7 +19,7 @@ public class RestAdminController {
 
     private final UserServiceDetailis userServiceDetailis;
     private final RoleService roleService;
-//    private final UserConverter userConverter;
+
 
     @Autowired
     public RestAdminController(UserServiceDetailis userServiceDetailis, RoleService roleService) {
